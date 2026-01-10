@@ -1,0 +1,119 @@
+/*HOME PAGE*/
+
+
+
+/* ===== HERO EDITORIAL ===== */
+
+.hero-editorial {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+/* Image */
+.hero-editorial__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 0;
+}
+
+/* Dark vignette like Fear of God */
+.hero-editorial::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 30%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  z-index: 1;
+}
+
+/* Overlay */
+.hero-editorial__overlay {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #f6f5f2;
+  padding: 2rem;
+}
+
+/* Eyebrow */
+.hero-editorial__eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  opacity: 0.85;
+  margin-bottom: 1.5rem;
+}
+
+/* Title */
+.hero-editorial__title {
+  font-family: var(--font-serif, serif);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  letter-spacing: 0.18em;
+  font-weight: 400;
+  margin-bottom: 3.5rem;
+}
+
+/* Actions */
+.hero-editorial__actions {
+  display: flex;
+  gap: 2rem;
+}
+
+/* Buttons */
+.hero-editorial__btn {
+  padding: 0.9rem 3rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid #f6f5f2;
+  color: #f6f5f2;
+  background: transparent;
+  transition: opacity 0.25s ease;
+}
+
+.hero-editorial__btn:hover {
+  opacity: 0.7;
+}
+
+.hero-editorial__btn:not(.outline) {
+  background: #f6f5f2;
+  color: #0b0b0b;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .hero-editorial__title {
+    font-size: 2.4rem;
+    letter-spacing: 0.12em;
+  }
+
+  .hero-editorial__actions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+
+
+
+/*Phone Styles End*/
+
+/*Hero Section Ends*/
+
+
+/*HOME PAGE ENDS*/

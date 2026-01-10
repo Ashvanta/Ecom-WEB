@@ -1,3 +1,251 @@
+/*HOME PAGE*/
+
+
+
+/* ===== HERO EDITORIAL ===== */
+/* ===== HERO: STRICT FULL VIEWPORT ===== */
+
+/* Ensure the body doesn't have default margins creating white space */
+/* FORCE FULL WIDTH RESET */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Prevents tiny side-scrolls */
+}
+
+/* If your Shopify/Hydrogen theme uses a main container, 
+   we must ensure it doesn't limit the width */
+main, .container, .page-width {
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* ===== HERO: STRICT FULL VIEWPORT ===== */
+.hero-editorial {
+  position: relative;
+  width: 100vw;   /* Force exact viewport width */
+  height: 100vh;  /* Force exact viewport height */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  left: 0;
+  top: 0;
+}
+
+.hero-editorial__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Trims image to fit 100vw/100vh perfectly */
+  object-position: center;
+  z-index: 0;
+}
+
+
+
+/* Dark vignette like Fear of God */
+.hero-editorial::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 30%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  z-index: 1;
+}
+
+/* Overlay */
+.hero-editorial__overlay {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #f6f5f2;
+  padding: 2rem;
+}
+
+/* Eyebrow */
+.hero-editorial__eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  opacity: 0.85;
+  margin-bottom: 1.5rem;
+}
+
+/* Title */
+.hero-editorial__title {
+  font-family: var(--font-serif, serif);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  letter-spacing: 0.18em;
+  font-weight: 400;
+  margin-bottom: 3.5rem;
+}
+
+/* Actions */
+.hero-editorial__actions {
+  display: flex;
+  gap: 2rem;
+}
+
+/* Buttons */
+.hero-editorial__btn {
+  padding: 0.9rem 3rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid #f6f5f2;
+  color: #f6f5f2;
+  background: transparent;
+  transition: opacity 0.25s ease;
+}
+
+.hero-editorial__btn:hover {
+  opacity: 0.7;
+}
+
+.hero-editorial__btn:not(.outline) {
+  background: #f6f5f2;
+  color: #0b0b0b;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .hero-editorial__title {
+    font-size: 2.4rem;
+    letter-spacing: 0.12em;
+  }
+
+  .hero-editorial__actions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+
+
+
+/*Phone Styles End*/
+
+/*Hero Section Ends*/
+
+/* ===== SHOP THE LOOK ===== */
+
+/* ===== SHOP THE LOOK: AESTHETIC EDITORIAL ===== */
+
+/* ===== SHOP THE LOOK: REFINED AESTHETIC ===== */
+
+.shop-look {
+  display: grid;
+  grid-template-columns: 42fr 58fr; 
+  min-height: 100vh;
+  background: #f6f5f2; /* Subtle paper-white background */
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* Left side editorial */
+.shop-look__editorial {
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-look__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Right side product area */
+.shop-look__products {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 6vw;
+  background: #ffffff;
+}
+
+
+/*  TITLE */
+.shop-look__title {
+  text-align: center;
+  font-family: var(--font-serif, serif);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 400;              /* NOT bold */
+  text-transform: uppercase;
+  letter-spacing: 0.25em;        /* More air */
+  margin-bottom: 5rem;
+  color: #000;
+}
+
+
+
+
+/* Product grid */
+.shop-look__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem 4rem;               /* MUCH more space */
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+
+/* IMAGE PLACEHOLDER EFFECT */
+.shop-look__item {
+  text-decoration: none;
+  display: block;
+}
+
+.shop-look__item-image-wrapper {
+  background-color: #f8f8f8;    /* softer than pure white */
+  padding: 40px;               /* BIG frame like reference */
+  box-shadow: none;             /* no card shadow */
+  transition: transform 0.3s ease;
+}
+
+.shop-look__item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;          /* IMPORTANT */
+  mix-blend-mode: normal;       /* cleaner look */
+}
+
+
+.shop-look__item:hover .shop-look__item-image-wrapper {
+  transform: translateY(-2px);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .shop-look {
+    grid-template-columns: 1fr;
+  }
+  .shop-look__editorial {
+    height: 60vh;
+  }
+}
+/* ===== SHOP THE LOOK ends here ===== */
+
+/*HOME PAGE ENDS*/
+
+
+
 :root {
   --aside-width: 400px;
   --cart-aside-summary-height-with-discount: 300px;
@@ -162,53 +410,190 @@ button.reset:hover:not(:has(> *)) {
 * components/Header
 * --------------------------------------------------
 */
+/* ===== HEADER: OVERLAY & TRANSPARENT ===== */
+/* =========================
+   HEADER BASE
+========================= */
+
 .header {
-  align-items: center;
-  background: #fff;
-  display: flex;
-  height: var(--header-height);
-  padding: 0 1rem;
-  position: sticky;
+  position: absolute;
   top: 0;
-  z-index: 1;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+
+  background: transparent;
+  pointer-events: auto;
+}
+.logo-link {
+  text-decoration: none;
+  color: inherit;
 }
 
+.logo-link:hover,
+.logo-link:focus,
+.logo-link:active,
+.logo-link:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+/* Logo Styling */
+.header-logo-text {
+  font-family: serif; /* Or your preferred heading font */
+  font-style: italic;
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: white;
+}
+
+/* Right Nav spacing */
+.header-right {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Ensure Icons are white and thin */
+.icon-btn svg {
+  color: white;
+  stroke: white;
+  transition: opacity 0.2s ease;
+}
+
+.icon-btn:hover svg {
+  opacity: 0.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 48em) {
+  .header-inner {
+    padding: 0 20px;
+  }
+}
+
+
+/* grid layout */
+.header-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+
+  height: 72px;
+  padding: 0 48px;
+}
+
+/* =========================
+   LEFT / CENTER / RIGHT
+========================= */
+
+.header-left {
+  display: flex;
+  gap: 32px;
+  justify-self: start;
+}
+
+.header-center {
+  justify-self: center;
+}
+
+.header-right {
+  display: flex;
+  gap: 24px;
+  justify-self: end;
+}
+
+/* =========================
+   NAV LINKS (DEFAULT)
+========================= */
+
+.header a {
+  color: white;
+  transition: opacity 0.2s ease;
+}
+
+.header a:hover {
+  opacity: 0.75;
+}
+
+
+
+/* =========================
+   DESKTOP NAV BAR
+========================= */
+
+.header-menu-desktop {
+  background: transparent;
+  transition: background 0.3s ease;
+}
+
+/* WHITE NAV BAR WHEN DROPDOWN HOVERED */
+.header-menu-desktop:has(.has-dropdown:hover) {
+  background: white;
+  backdrop-filter: blur(10px);
+}
+
+/* text + icons flip to dark */
+.header-menu-desktop:has(.has-dropdown:hover) a,
+.header-menu-desktop:has(.has-dropdown:hover) svg {
+  color: #111;
+  stroke: #111;
+  fill: #111;
+}
+
+/* =========================
+   DROPDOWN PANEL
+========================= */
+
+.dropdown {
+  background: white;
+  color: #111;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   ICON BUTTONS
+========================= */
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+}
+
+.icon-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: white;
+  transition: stroke 0.25s ease;
+}
+
+/* =========================
+   MOBILE TOGGLE
+========================= */
+
 .header-menu-mobile-toggle {
-  @media (min-width: 48em) {
+  display: inline-flex;
+}
+
+@media (min-width: 48em) {
+  .header-menu-mobile-toggle {
     display: none;
   }
 }
 
-.header-menu-mobile {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 1rem;
-}
+/* ===== HEADER: OVERLAY & TRANSPARENT ENDS ===== */
 
-.header-menu-desktop {
-  display: none;
-  grid-gap: 1rem;
-  @media (min-width: 45em) {
-    display: flex;
-    grid-gap: 1rem;
-    margin-left: 3rem;
-  }
-}
 
-.header-menu-item {
-  cursor: pointer;
-}
 
-.header-ctas {
-  align-items: center;
-  display: flex;
-  grid-gap: 1rem;
-  margin-left: auto;
-}
 
-.header-ctas > * {
-  min-width: fit-content;
-}
 
 
 /*
@@ -216,23 +601,116 @@ button.reset:hover:not(:has(> *)) {
 * components/Footer
 * --------------------------------------------------
 */
-.footer {
-  background: var(--color-dark);
-  margin-top: auto;
+.site-footer {
+  background: #f7f5f2;
+  padding: 60px 80px 30px;
+  font-family: "Inter", sans-serif;
 }
 
-.footer-menu {
-  justify-content: center;
+.footer-assurance {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center;
+  gap: 40px;
+}
+
+.footer-assurance h4 {
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.footer-assurance p {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.footer-divider {
+  height: 1px;
+  background: #ddd;
+  margin: 40px 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1.2fr;
+  gap: 50px;
+}
+
+.footer-grid h5 {
+  font-size: 12px;
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+}
+
+.footer-grid ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-grid li {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.footer-grid a {
+  text-decoration: none;
+  color: #111;
+  opacity: 0.75;
+}
+
+.footer-grid a:hover {
+  opacity: 1;
+}
+
+.footer-label {
+  margin-top: 18px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.footer-newsletter {
   display: flex;
-  flex-wrap: wrap;
-  grid-gap: 1rem;
-  padding: 1rem;
+  margin: 14px 0;
 }
 
-.footer-menu a {
-  color: var(--color-light);
-  min-width: fit-content;
+.footer-newsletter input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
 }
+
+.footer-newsletter button {
+  background: #111;
+  color: #fff;
+  padding: 10px 18px;
+  border: none;
+  cursor: pointer;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.footer-small {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.footer-brand {
+  text-align: center;
+  margin-top: 50px;
+  font-family: serif; /* Or your preferred heading font */
+  font-style: italic;
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: black;
+}
+
 
 /*
 * --------------------------------------------------

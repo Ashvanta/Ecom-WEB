@@ -1,0 +1,5 @@
+:root {
+  --color-primary: #0b0b0b;   /* near-black, not pure */
+  --color-base: #f6f5f2;      /* ivory */
+  --color-accent: #6b705c;    /* muted olive */
+}

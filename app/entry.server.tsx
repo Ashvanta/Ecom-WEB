@@ -1,5 +1,5 @@
 import type {AppLoadContext} from '@shopify/remix-oxygen';
-import {ServerRouter} from 'react-router';
+import {ServerRouter} from 'react-router';  // ← Use ServerRouter
 import {isbot} from 'isbot';
 import {renderToReadableStream} from 'react-dom/server';
 import {createContentSecurityPolicy} from '@shopify/hydrogen';
@@ -9,20 +9,20 @@ export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  reactRouterContext: EntryContext,
-  context: AppLoadContext,
+  remixContext: EntryContext,
+  loadContext: AppLoadContext,
 ) {
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
     shop: {
-      checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
-      storeDomain: context.env.PUBLIC_STORE_DOMAIN,
+      checkoutDomain: loadContext.env.PUBLIC_CHECKOUT_DOMAIN,
+      storeDomain: loadContext.env.PUBLIC_STORE_DOMAIN,
     },
   });
 
   const body = await renderToReadableStream(
     <NonceProvider>
       <ServerRouter
-        context={reactRouterContext}
+        context={remixContext}
         url={request.url}
         nonce={nonce}
       />

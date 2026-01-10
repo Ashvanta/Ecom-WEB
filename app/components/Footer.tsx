@@ -8,68 +8,102 @@ interface FooterProps {
   publicStoreDomain: string;
 }
 
-export function Footer({
-  footer: footerPromise,
-  header,
-  publicStoreDomain,
-}: FooterProps) {
+export function Footer() {
   return (
-    <Suspense>
-      <Await resolve={footerPromise}>
-        {(footer) => (
-          <footer className="footer">
-            {footer?.menu && header.shop.primaryDomain?.url && (
-              <FooterMenu
-                menu={footer.menu}
-                primaryDomainUrl={header.shop.primaryDomain.url}
-                publicStoreDomain={publicStoreDomain}
-              />
-            )}
-          </footer>
-        )}
-      </Await>
-    </Suspense>
-  );
-}
+    <footer className="site-footer">
+      {/* Top assurance strip */}
+      <div className="footer-assurance">
+        <div>
+          <h4>FREE DELIVERY</h4>
+          <p>For orders over ₹2000</p>
+        </div>
+        <div>
+          <h4>FREE RETURNS</h4>
+          <p>Seamless & hassle-free returns</p>
+        </div>
+        <div>
+          <h4>SECURE PAYMENT</h4>
+          <p>Visa, Mastercard, PayPal, UPI</p>
+        </div>
+      </div>
 
-function FooterMenu({
-  menu,
-  primaryDomainUrl,
-  publicStoreDomain,
-}: {
-  menu: FooterQuery['menu'];
-  primaryDomainUrl: FooterProps['header']['shop']['primaryDomain']['url'];
-  publicStoreDomain: string;
-}) {
-  return (
-    <nav className="footer-menu" role="navigation">
-      {(menu || FALLBACK_FOOTER_MENU).items.map((item) => {
-        if (!item.url) return null;
-        // if the url is internal, we strip the domain
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
-            ? new URL(item.url).pathname
-            : item.url;
-        const isExternal = !url.startsWith('/');
-        return isExternal ? (
-          <a href={url} key={item.id} rel="noopener noreferrer" target="_blank">
-            {item.title}
-          </a>
-        ) : (
-          <NavLink
-            end
-            key={item.id}
-            prefetch="intent"
-            style={activeLinkStyle}
-            to={url}
-          >
-            {item.title}
-          </NavLink>
-        );
-      })}
-    </nav>
+      <div className="footer-divider" />
+
+      {/* Main footer grid */}
+      <div className="footer-grid">
+        {/* NEED HELP */}
+        <div>
+          <h5>NEED HELP?</h5>
+          <ul>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/returns">Want to make a return?</a></li>
+            <li><a href="/order-tracking">Track my order</a></li>
+          </ul>
+
+          <p className="footer-label">Contact:</p>
+          <p>Email: hello@ashvanta.com</p>
+          <p>WhatsApp</p>
+          <p>Instagram: @ashvanta</p>
+
+          <p className="footer-label">Useful Information:</p>
+          <ul>
+            <li><a href="/account">My Account</a></li>
+            <li><a href="/delivery">My Delivery</a></li>
+            <li><a href="/returns">My Returns</a></li>
+          </ul>
+        </div>
+
+        {/* ABOUT */}
+        <div>
+          <h5>ABOUT</h5>
+          <ul>
+            <li><a href="/about">A Word from Ashvanta</a></li>
+            <li><a href="/commitment">Our Commitments</a></li>
+            <li><a href="/legal">Legal Notices</a></li>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms & Conditions</a></li>
+            <li><a href="/accessibility">Digital Accessibility</a></li>
+            <li><a href="/careers">Join Us</a></li>
+          </ul>
+        </div>
+
+        {/* LOCATIONS */}
+        <div>
+          <h5>OUR LOCATIONS</h5>
+          <ul>
+            <li>New Delhi</li>
+            <li>Mumbai</li>
+            <li>Bangalore</li>
+            <li>Hyderabad</li>
+            <li>Chennai</li>
+          </ul>
+        </div>
+
+        {/* NEWSLETTER */}
+        <div>
+          <h5>SUBSCRIBE TO OUR NEWSLETTER</h5>
+          <div className="footer-newsletter">
+            <input placeholder="Your e-mail address" />
+            <button>OK</button>
+          </div>
+
+          <div className="footer-socials">
+            <span>IG</span>
+            <span>X</span>
+            <span>FB</span>
+            <span>YT</span>
+          </div>
+
+          <p className="footer-small">
+            Change delivery country: <strong>India</strong><br />
+            Language: <strong>English</strong>
+          </p>
+        </div>
+      </div>
+
+      {/* Brand signature */}
+      <div className="footer-brand">Ashvanta</div>
+    </footer>
   );
 }
 
