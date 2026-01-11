@@ -4,7 +4,7 @@ import {
 } from '@shopify/remix-oxygen';
 import { useLoaderData, type MetaFunction } from 'react-router';
 import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
-import {SearchForm} from '~/components/SearchForm';
+import {Form} from 'react-router';
 import {SearchResults} from '~/components/SearchResults';
 import {
   type RegularSearchReturn,
@@ -37,44 +37,61 @@ export async function loader({request, context}: LoaderFunctionArgs) {
  */
 export default function SearchPage() {
   const {type, term, result, error} = useLoaderData<typeof loader>();
+
+  // Predictive search is handled elsewhere (overlay / future)
   if (type === 'predictive') return null;
 
   return (
-    <div className="search">
-      <h1>Search</h1>
-      <SearchForm>
-        {({inputRef}) => (
-          <>
-            <input
-              defaultValue={term}
-              name="q"
-              placeholder="Search…"
-              ref={inputRef}
-              type="search"
-            />
-            &nbsp;
-            <button type="submit">Search</button>
-          </>
+    <div className="search-page">
+      {/* Optional empty header spacer */}
+      <header className="search-header" />
+
+      <main className="search-main">
+        <h1 className="search-title">Search</h1>
+
+        {/* Search bar */}
+        <Form method="get" action="/search" className="search-bar">
+          <input
+            type="search"
+            name="q"
+            defaultValue={term}
+            className="search-input"
+            autoFocus
+          />
+          <button type="submit" className="search-icon">
+            🔍
+          </button>
+        </Form>
+
+        {/* Error */}
+        {error && <p className="search-error">{error}</p>}
+
+        {/* Results */}
+        {!term || !result?.total ? (
+          <SearchResults.Empty />
+        ) : (
+          <SearchResults result={result} term={term}>
+            {({articles, pages, products, term}) => (
+              <div className="search-results">
+                <SearchResults.Products products={products} term={term} />
+                <SearchResults.Pages pages={pages} term={term} />
+                <SearchResults.Articles articles={articles} term={term} />
+              </div>
+            )}
+          </SearchResults>
         )}
-      </SearchForm>
-      {error && <p style={{color: 'red'}}>{error}</p>}
-      {!term || !result?.total ? (
-        <SearchResults.Empty />
-      ) : (
-        <SearchResults result={result} term={term}>
-          {({articles, pages, products, term}) => (
-            <div>
-              <SearchResults.Products products={products} term={term} />
-              <SearchResults.Pages pages={pages} term={term} />
-              <SearchResults.Articles articles={articles} term={term} />
-            </div>
-          )}
-        </SearchResults>
-      )}
-      <Analytics.SearchView data={{searchTerm: term, searchResults: result}} />
+
+        <Analytics.SearchView
+          data={{searchTerm: term, searchResults: result}}
+        />
+      </main>
+
+      {/* Footer spacer (inherits page bg) */}
+      <footer className="search-footer" />
     </div>
   );
 }
+
 
 /**
  * Regular search query and fragments

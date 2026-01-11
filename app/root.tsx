@@ -1,6 +1,9 @@
 import {Analytics, getShopAnalytics, useNonce} from '@shopify/hydrogen';
 import {type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {useLocation} from 'react-router';
+
 import {
+
   Outlet,
   useRouteError,
   isRouteErrorResponse,
@@ -145,15 +148,18 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 export function Layout({children}: {children?: React.ReactNode}) {
   const nonce = useNonce();
   const data = useRouteLoaderData<RootLoader>('root');
+  const location = useLocation();
+
+  const isSearchPage = location.pathname === '/search';
 
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <link rel="stylesheet" href={tailwindCss}></link>
-        <link rel="stylesheet" href={resetStyles}></link>
-        <link rel="stylesheet" href={appStyles}></link>
+        <link rel="stylesheet" href={tailwindCss} />
+        <link rel="stylesheet" href={resetStyles} />
+        <link rel="stylesheet" href={appStyles} />
         <Meta />
         <Links />
       </head>
@@ -164,17 +170,23 @@ export function Layout({children}: {children?: React.ReactNode}) {
             shop={data.shop}
             consent={data.consent}
           >
-            <PageLayout {...data}>{children}</PageLayout>
+            {isSearchPage ? (
+              children
+            ) : (
+              <PageLayout {...data}>{children}</PageLayout>
+            )}
           </Analytics.Provider>
         ) : (
           children
         )}
+
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
       </body>
     </html>
   );
 }
+
 
 export default function App() {
   return <Outlet />;

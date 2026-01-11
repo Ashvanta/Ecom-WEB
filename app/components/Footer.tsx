@@ -10,7 +10,12 @@ interface FooterProps {
 
 export function Footer() {
   return (
+    
+
     <footer className="site-footer">
+       
+       <div className="footer-divider" />
+
       {/* Top assurance strip */}
       <div className="footer-assurance">
         <div>

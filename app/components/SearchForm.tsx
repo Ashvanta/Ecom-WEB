@@ -1,68 +1,57 @@
 import {useRef, useEffect} from 'react';
-import { Form, type FormProps } from 'react-router';
+import {Form, useSearchParams} from 'react-router';
 
-type SearchFormProps = Omit<FormProps, 'children'> & {
-  children: (args: {
-    inputRef: React.RefObject<HTMLInputElement>;
-  }) => React.ReactNode;
-};
+export default function SearchPage() {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [params] = useSearchParams();
+  const term = params.get('q') ?? '';
 
-/**
- * Search form component that sends search requests to the `/search` route.
- * @example
- * ```tsx
- * <SearchForm>
- *  {({inputRef}) => (
- *    <>
- *      <input
- *        ref={inputRef}
- *        type="search"
- *        defaultValue={term}
- *        name="q"
- *        placeholder="Search…"
- *      />
- *      <button type="submit">Search</button>
- *   </>
- *  )}
- *  </SearchForm>
- */
-export function SearchForm({children, ...props}: SearchFormProps) {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  useFocusOnCmdK(inputRef);
-
-  if (typeof children !== 'function') {
-    return null;
-  }
+  useAutoFocus(inputRef);
 
   return (
-    <Form method="get" {...props}>
-      {children({inputRef})}
-    </Form>
+    <div className="search-page">
+      <header className="search-header" />
+
+      <main className="search-main">
+        <h1 className="search-title">Search</h1>
+
+        <Form method="get" action="/search" className="search-bar">
+          <input
+            ref={inputRef}
+            type="search"
+            name="q"
+            defaultValue={term}
+            className="search-input"
+          />
+          <button type="submit" className="search-icon">
+            🔍
+          </button>
+        </Form>
+
+        {term && (
+          <div className="search-results">
+            {/* Render results here */}
+          </div>
+        )}
+      </main>
+
+      <footer className="search-footer" />
+    </div>
   );
 }
 
-/**
- * Focuses the input when cmd+k is pressed
- */
-function useFocusOnCmdK(inputRef: React.RefObject<HTMLInputElement>) {
-  // focus the input when cmd+k is pressed
+/* Auto focus ONLY on this page */
+function useAutoFocus(inputRef: React.RefObject<HTMLInputElement>) {
   useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'k' && event.metaKey) {
-        event.preventDefault();
-        inputRef.current?.focus();
-      }
+    inputRef.current?.focus();
 
-      if (event.key === 'Escape') {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
         inputRef.current?.blur();
       }
     }
 
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [inputRef]);
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, []);
 }

@@ -21,118 +21,219 @@ main, .container, .page-width {
   padding: 0 !important;
   margin: 0 !important;
 }
+/* =========================
+   LUXURY EDITORIAL TYPOGRAPHY
+========================= */
 
-/* ===== HERO: STRICT FULL VIEWPORT ===== */
-.hero-editorial {
-  position: relative;
-  width: 100vw;   /* Force exact viewport width */
-  height: 100vh;  /* Force exact viewport height */
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  left: 0;
-  top: 0;
-}
+/* The Eyebrow (First Line)
+   Strategy: Small, Wide-tracked, Medium weight.
+   This acts as the "label" for the content. */
+/* =========================
+   LUXURY EDITORIAL TYPOGRAPHY
+========================= */
 
-.hero-editorial__image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Trims image to fit 100vw/100vh perfectly */
-  object-position: center;
-  z-index: 0;
-}
-
-
-
-/* Dark vignette like Fear of God */
-.hero-editorial::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(0, 0, 0, 0) 30%,
-    rgba(0, 0, 0, 0.65) 100%
-  );
-  z-index: 1;
-}
-
-/* Overlay */
-.hero-editorial__overlay {
-  position: relative;
-  z-index: 2;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #f6f5f2;
-  padding: 2rem;
-}
-
-/* Eyebrow */
+/* The Eyebrow (First Line) - ENLARGED */
 .hero-editorial__eyebrow {
-  font-size: 0.75rem;
-  letter-spacing: 0.25em;
-  opacity: 0.85;
-  margin-bottom: 1.5rem;
-}
-
-/* Title */
-.hero-editorial__title {
-  font-family: var(--font-serif, serif);
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  letter-spacing: 0.18em;
-  font-weight: 400;
-  margin-bottom: 3.5rem;
-}
-
-/* Actions */
-.hero-editorial__actions {
-  display: flex;
-  gap: 2rem;
-}
-
-/* Buttons */
-.hero-editorial__btn {
-  padding: 0.9rem 3rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
+  font-family: "Inter", sans-serif; 
+  font-size: 1.25rem;               /* Increased from 0.75rem */
   text-transform: uppercase;
-  text-decoration: none;
-  border: 1px solid #f6f5f2;
-  color: #f6f5f2;
-  background: transparent;
-  transition: opacity 0.25s ease;
+  letter-spacing: 0.5em;            /* Pushed tracking even further for airiness */
+  font-weight: 400;                 /* Reduced weight to keep it elegant at a larger size */
+  line-height: 1.2;
+  margin-bottom: 0rem;              /* Increased spacing to match the larger scale */
+  display: block;
+  opacity: 0.85;
+  text-align: center;
 }
 
-.hero-editorial__btn:hover {
+/* The Title (Second Line) */
+.hero-editorial__title {
+  font-family: serif;              
+  font-size: clamp(3rem, 7vw, 6.5rem); /* Scaled up slightly to maintain hierarchy */
+  font-weight: 200;                
+  letter-spacing: -0.03em;         
+  line-height: 1.05;               
+  margin: 0;
+  display: block;
+  text-align: center;
+  
+  /* Text smoothing */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optional: The Description/Subtitle (Third Line)
+   If you have one, keep it narrow and centered. */
+.hero-editorial__description {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.6;
+  max-width: 40ch;                 /* Keeps line length elegant */
+  margin: 2rem auto 0;
   opacity: 0.7;
 }
 
-.hero-editorial__btn:not(.outline) {
-  background: #f6f5f2;
-  color: #0b0b0b;
+/* =========================
+   HERO TEXT SPACING
+========================= */
+
+.hero-editorial__overlay {
+  gap: 14px; /* more breathing room */
 }
 
-/* Mobile */
-@media (max-width: 768px) {
-  .hero-editorial__title {
-    font-size: 2.4rem;
-    letter-spacing: 0.12em;
-  }
+.hero-editorial__eyebrow {
+  margin-bottom: 40px;
+}
 
-  .hero-editorial__actions {
-    flex-direction: column;
-    gap: 1rem;
-  }
+.hero-editorial__title {
+  margin-bottom: 30px;
 }
 
 
+
+/* =========================
+   HERO BUTTON STATES
+========================= */
+
+/* IDLE = OUTLINE */
+.hero-editorial__btn {
+  background: transparent;
+  color: white;
+  border: 1.5px solid white;
+
+  padding: 14px 34px;
+  font-weight: 500;
+
+  transition: 
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+/* HOVER = FILLED */
+.hero-editorial__btn:hover {
+  background: white;
+  color: #111;
+  transform: translateY(-1px);
+}
+
+/* =========================
+   HERO – NO GAP
+========================= */
+
+.hero-editorial-wrapper {
+  height: 200vh; /* keep scroll lock */
+  margin: 0;
+  padding: 0;
+}
+
+.hero-editorial {
+  position: sticky;
+  top: 0;
+
+  height: 100vh;
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+}
+
+/* Remove any accidental spacing */
+.hero-editorial * {
+  margin-top: 0;
+}
+
+
+
+/* =========================
+   IMAGE FULL BLEED
+========================= */
+
+.hero-editorial__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+/* =========================
+   TEXT AT BOTTOM
+========================= */
+
+.hero-editorial__overlay {
+  position: absolute;
+  bottom: 20px; /* already tuned */
+
+  width: 100%;
+  padding: 0 24px; /* no vertical padding */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  color: white;
+}
+/* ===== HERO: STRICT FULL VIEWPORT ===== */
+/* =========================
+   HERO LAYOUT
+========================= */
+
+/* =========================
+   TEXT AT BOTTOM (REFINED)
+========================= */
+
+.hero-editorial__overlay {
+  position: absolute;
+  bottom: 20px; /* was 48px → now much lower */
+  left: 0;
+  width: 100%;
+
+  padding: 0 32px; /* slightly reduced side spacing */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; /* was 18px → tighter stack */
+
+  text-align: center;
+  color: white;
+}
+
+/* =========================
+   TYPO TIGHTENING
+========================= */
+
+.hero-editorial__eyebrow {
+  letter-spacing: 0.22em;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+
+.hero-editorial__title {
+  font-size: clamp(2.4rem, 5vw, 4.5rem);
+  line-height: 1.05; /* tighter */
+  margin: 0; /* remove default gap */
+}
+
+/* =========================
+   BUTTONS (COMPACT)
+========================= */
+
+.hero-editorial__actions {
+  display: flex;
+  gap: 10px; /* tighter */
+  margin-top: 6px;
+}
+
+.hero-editorial__btn {
+  padding: 12px 28px; /* slightly smaller */
+}
 
 
 /*Phone Styles End*/
@@ -415,49 +516,432 @@ button.reset:hover:not(:has(> *)) {
    HEADER BASE
 ========================= */
 
+
+/* 1. Header is now a stable container that never physically changes height */
+/* 1. The Header stays stable */
+
+
+/* 1. Base Header - Transparent by default */
+
+/* =========================
+   GLOBAL RESET
+========================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* =========================
+   HEADER CORE
+========================= */
+
+
+/* =========================
+   SMART HEADER BEHAVIOR
+========================= */
+/* =========================
+   LUXURY SCROLL ANIMATION
+========================= */
+
+/* =========================
+   HEADER CORE
+========================= */
 .header {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 50;
+  height: 72px;
+  z-index: 1000;
 
+  display: flex;
+  align-items: center;
+  overflow: visible;
+
+  background-color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+  transition:
+    transform 0.8s cubic-bezier(0.2, 1, 0.2, 1),
+    background-color 0.5s ease,
+    box-shadow 0.5s ease;
+
+  will-change: transform, background-color;
+}
+
+/* =========================
+   ICON OUTLINE FIX (IDLE)
+========================= */
+
+.header.at-top:not(:hover):not(:has(.header-search.open))
+.icon-btn svg {
+  stroke: white !important;   /* outer line */
+  color: white !important;
+  fill: none !important;     /* NO FILL */
+}
+
+
+/* =========================
+   IDLE HEADER = ALL WHITE
+========================= */
+
+.header.at-top:not(:hover):not(:has(.header-search.open)) {
   background: transparent;
-  pointer-events: auto;
-}
-.logo-link {
-  text-decoration: none;
-  color: inherit;
 }
 
+/* =========================
+   LEFT NAV = BOLD
+========================= */
+
+.header-left .header-menu-item {
+  font-weight: 600; /* bold */
+}
+
+
+/* Text */
+.header.at-top:not(:hover):not(:has(.header-search.open))
+.header-logo-text,
+.header.at-top:not(:hover):not(:has(.header-search.open))
+.header-menu-item {
+  color: white !important;
+}
+
+/* Icons */
+.header.at-top:not(:hover):not(:has(.header-search.open))
+.icon-btn svg {
+  stroke: white !important;
+  color: white !important;
+  fill: none !important;
+}
+
+/* Remove nav fade side effect */
+.header.at-top:not(:hover):not(:has(.header-search.open))
+.header-left,
+.header.at-top:not(:hover):not(:has(.header-search.open))
+.header-right {
+  opacity: 1;
+}
+
+
+/* Scroll down → hide */
+.header.header-hidden {
+  transform: translateY(-100%);
+  box-shadow: none;
+}
+
+/* At top → transparent */
+.header.at-top {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+/* =========================
+   HEADER INNER
+========================= */
+
+.header-inner {
+  height: 100%;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+
+  padding: 0 48px;
+}
+
+.header-left {
+  display: flex;
+  gap: 20px;
+}
+
+.header-center {
+  display: flex;
+  justify-content: center;
+}
+
+.header-right {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+}
+
+.header-right > * {
+  flex: 0 0 auto;
+}
+
+/* =========================
+   HEADER BACKGROUND LOGIC
+========================= */
+
+/* Hover = white background */
+.header:hover {
+  background: white;
+  backdrop-filter: blur(10px);
+  transition: background 0.4s ease;
+}
+
+/* Search open = white background */
+.header:has(.header-search.open) {
+  background: white;
+  backdrop-filter: blur(10px);
+}
+
+/* At top & idle = transparent */
+.header.at-top:not(:hover):not(:has(.header-search.open)) {
+  background: transparent;
+}
+
+
+
+/* =========================
+   LOGO HOVER BEHAVIOR (PATCHED)
+========================= */
+
+/* Shrink logo when hovering header
+   BUT NOT when hovering logo itself */
+
+.header:hover:not(:has(.header-logo-text:hover))
+.header-logo-text {
+  transform: translateY(0) scale(1);
+  letter-spacing: -0.02em;
+}
+
+
+
+/* =========================
+   CURTAIN LAYER (PHYSICS FIXED)
+========================= */
+
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: white;
+
+  /* start hidden */
+  transform: scaleY(0);
+  transform-origin: top;
+
+  transition:
+    transform 1.15s cubic-bezier(0.2, 1, 0.2, 1),
+    box-shadow 0.6s ease; 
+
+  will-change: transform;
+  z-index: -1;
+  pointer-events: none;
+}
+
+
+/* Search open */
+.header:has(.header-search.open)::before {
+  background-color: white;
+  height: 160px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+}
+
+/* Dropdown open */
+.header:has(.header-menu-item:hover)::before {
+  background-color: white;
+  height: 450px;
+}
+/* When closing */
+.header:not(:has(.header-search.open))
+:not(:has(.header-menu-item:hover))::before {
+  transform-origin: bottom;
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logo-link,
 .logo-link:hover,
 .logo-link:focus,
 .logo-link:active,
 .logo-link:visited {
   text-decoration: none;
   color: inherit;
+}/* =========================
+   LOGO – TWO STATES
+========================= */
+
+
+/* =========================
+   LOGO STATE LOGIC (UPDATED)
+========================= */
+/* =========================
+   LOGO STATE LOGIC (FINAL)
+========================= */
+/* =========================
+   LOGO STATE LOGIC (FIXED)
+========================= */
+/* =========================
+   LOGO STATE LOGIC (FINAL)
+========================= */
+
+/* 1. THE BIG STATE 
+   - We keep it big when at top and header is NOT hovered.
+   - ADDITION: pointer-events: none makes the mouse "ignore" the big text.
+*/
+.header.at-top:not(:hover):not(:has(.header-search.open)) .header-logo-text {
+  transform: translateY(14vh) scale(6.0);
+  letter-spacing: -0.06em;
+  color: white;
+  pointer-events: none; /* Mouse passes through the text without triggering header hover */
 }
 
-
-/* Logo Styling */
+/* 2. THE SHRINK STATE (Default) */
 .header-logo-text {
-  font-family: serif; /* Or your preferred heading font */
+  transform: translateY(0) scale(1);
+  letter-spacing: -0.02em;
+  color: #111;
+  pointer-events: auto; /* Re-enable clicking/hovering once it's small in the header */
+  
+  font-family: serif;
   font-style: italic;
   font-size: 1.8rem;
   font-weight: 500;
-  letter-spacing: -0.02em;
   margin: 0;
+  display: block;
+  position: relative;
+  z-index: 10;
+  transform-origin: center;
+  transition: 
+    transform 0.9s cubic-bezier(0.2, 1, 0.2, 1), 
+    letter-spacing 0.4s ease, 
+    color 0.4s ease;
+  will-change: transform;
+}
+
+/* 3. LOCK: ENSURE LOGO STAYS SHRINKED WHEN HOVERED
+   This satisfies your requirement: hovering the shrunk logo keeps it shrunk.
+*/
+.header:hover .header-logo-text {
+  transform: translateY(0) scale(1) !important;
+  color: #111 !important;
+  pointer-events: auto !important;
+}
+
+/* 4. SCROLLED PROTECTION */
+.header:not(.at-top) .header-logo-text {
+  transform: scale(1) !important; 
+  translate: 0 0 !important;
+  color: #111 !important;
+  pointer-events: auto !important;
+}
+
+/* 3. HOVERING THE LOGO TEXT DIRECTLY
+   We add a specific rule: If the header is NOT hovered, 
+   but we are hovering the logo (initial state), KEEP IT BIG.
+*/
+.header.at-top:not(:has(.header-search.open)) .logo-link:hover .header-logo-text {
+    /* This allows the logo to stay big if you hover it while it's already expanded */
+    transform: translateY(22vh) scale(4.4);
+    color: white;
+}
+
+/* 4. THE LOCK: HOVERING THE SHRINKED LOGO
+   If the header IS hovered (white state), we force the logo to stay small.
+   This prevents the "expanding on hover" behavior you are seeing in the shrunk state.
+*/
+.header:hover .logo-link:hover .header-logo-text {
+  transform: translateY(0) scale(1) !important;
+  color: #111 !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* 5. SCROLLED PROTECTION */
+.header:not(.at-top) .header-logo-text {
+  transform: scale(1) !important; 
+  translate: 0 0 !important;
+  color: #111 !important;
+}
+
+
+/* =========================
+   COLOR LOGIC (FIXED)
+========================= */
+
+/* At top & idle OR hovering logo */
+.header.at-top:not(:hover) .header-logo-text,
+.header.at-top:has(.logo-link:hover) .header-logo-text {
   color: white;
 }
+/* 3. SCROLLED HOVER LOGIC
+   Ensures that if you are scrolled down, the logo stays dark/small 
+   even if you hover the logo link.
+*/
+.header:not(.at-top) .header-logo-text {
+  transform: scale(1) !important; 
+  translate: 0 0 !important;
+  color: #111 !important;
+}
+/* Scrolled / Hovering nav / Search active */
 
-/* Right Nav spacing */
-.header-right {
-  display: flex;
-  gap: 20px;
-  align-items: center;
+.header:hover:not(:has(.logo-link:hover)) .header-logo-text,
+.header:has(.header-search.open) .header-logo-text {
+  color: #111;
 }
 
-/* Ensure Icons are white and thin */
+
+/* =========================
+   MOBILE ADJUSTMENTS
+========================= */
+
+@media (max-width: 48em) {
+  .header.at-top:not(:hover):not(:has(.header-search.open))
+  .header-logo-text {
+    transform: translateY(15vh) scale(2.8);
+  }
+}
+
+
+
+/* =========================
+   OPTIONAL: FADE NAV
+========================= */
+/*
+.header.at-top:not(:hover):not(:has(.header-search.open))
+.header-left,
+.header.at-top:not(:hover):not(:has(.header-search.open))
+.header-right {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+  */
+
+
+
+/* =========================
+   NAV LINKS
+========================= */
+
+.header-menu-item {
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+
+  text-decoration: none;
+  color: white;
+
+  transition:
+    opacity 0.3s ease,
+    color 0.4s ease;
+}
+
+
+
+/* =========================
+   ICONS
+========================= */
+
 .icon-btn svg {
   color: white;
   stroke: white;
@@ -468,61 +952,36 @@ button.reset:hover:not(:has(> *)) {
   opacity: 0.7;
 }
 
-/* Responsive adjustments */
-@media (max-width: 48em) {
-  .header-inner {
-    padding: 0 20px;
-  }
-}
 
-
-/* grid layout */
-.header-inner {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-
-  height: 72px;
-  padding: 0 48px;
-}
 
 /* =========================
-   LEFT / CENTER / RIGHT
+   COLOR LOGIC
 ========================= */
 
-.header-left {
-  display: flex;
-  gap: 32px;
-  justify-self: start;
-}
-
-.header-center {
-  justify-self: center;
-}
-
-.header-right {
-  display: flex;
-  gap: 24px;
-  justify-self: end;
-}
-
-/* =========================
-   NAV LINKS (DEFAULT)
-========================= */
-
-.header a {
+/* At top & idle */
+.header.at-top:not(:hover):not(:has(.header-search.open))
+.header-menu-item,
+.header.at-top:not(:hover):not(:has(.header-search.open))
+.header-logo-text,
+.header.at-top:not(:hover):not(:has(.header-search.open))
+.icon-btn svg {
   color: white;
-  transition: opacity 0.2s ease;
+  stroke: white;
+  opacity: 1;
 }
 
-.header a:hover {
-  opacity: 0.75;
+/* Scrolled / hover / active */
+.header:not(.at-top) .header-menu-item,
+.header:hover .header-menu-item,
+.header:has(.header-search.open) .header-menu-item,
+.header:not(.at-top) .icon-btn svg,
+.header:hover .icon-btn svg {
+  color: #111;
+  stroke: #111;
 }
-
-
 
 /* =========================
-   DESKTOP NAV BAR
+   DESKTOP NAV BG
 ========================= */
 
 .header-menu-desktop {
@@ -530,13 +989,11 @@ button.reset:hover:not(:has(> *)) {
   transition: background 0.3s ease;
 }
 
-/* WHITE NAV BAR WHEN DROPDOWN HOVERED */
 .header-menu-desktop:has(.has-dropdown:hover) {
   background: white;
   backdrop-filter: blur(10px);
 }
 
-/* text + icons flip to dark */
 .header-menu-desktop:has(.has-dropdown:hover) a,
 .header-menu-desktop:has(.has-dropdown:hover) svg {
   color: #111;
@@ -545,13 +1002,267 @@ button.reset:hover:not(:has(> *)) {
 }
 
 /* =========================
+   SEARCH FORM
+========================= */
+
+/* =========================
+   SEARCH FORM
+========================= */
+/* =========================
+   SEARCH FORM (REFINED)
+========================= */
+
+/* =========================
+   SEARCH FORM (CLEANED)
+========================= */
+
+.header-search-form {
+  position: fixed;
+  top: 72px;
+  right: 48px;
+  width: 320px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1100;
+  transform: translateY(0);
+  transition: 
+    opacity 0.6s ease, 
+    transform 0.9s cubic-bezier(0.2, 1, 0.2, 1);
+}
+
+.header-search.open .header-search-form {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(35px);
+}
+
+.header-search-form input {
+  width: 100% !important;
+  background: transparent !important;
+  color: #111 !important;
+  
+  /* 1. REMOVE ALL BORDERS & OUTLINES */
+  border: none !important;
+  border-bottom: 0px solid transparent !important; 
+  outline: none !important;
+  box-shadow: none !important;
+  
+  /* 2. REMOVE BROWSER "X" BUTTON & SEARCH DECORATION */
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+/* Specific fix for the "Cross" (Clear button) in Chrome/Safari */
+.header-search-form input::-webkit-search-decoration,
+.header-search-form input::-webkit-search-cancel-button,
+.header-search-form input::-webkit-search-results-button,
+.header-search-form input::-webkit-search-results-decoration {
+  display: none !important;
+  -webkit-appearance: none !important;
+}
+
+.header-search-form input {
+  text-align: left !important;
+  font-size: 1rem !important;
+  padding: 2px 0 !important;
+  font-family: "Inter", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* LUXURY PLACEHOLDER */
+.header-search-form input::placeholder {
+  color: #999;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  font-size: 0.85rem;
+}
+
+/* THE SINGLE ANIMATED UNDERLINE */
+/* THE SINGLE ANIMATED UNDERLINE */
+.header-search-form::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #111;
+  
+  /* DEFAULT STATE (Closed/Destruction) */
+  transform: scaleX(0);
+  transform-origin: right; /* Shrinks to the right */
+  transition: transform 0.6s cubic-bezier(0.2, 1, 0.2, 1);
+}
+
+/* OPEN STATE (Creation) */
+.header-search.open .header-search-form::after {
+  transform: scaleX(1);
+  transform-origin: left; /* Grows from the left */
+  /* Slow luxury draw speed */
+  transition: transform 0.8s cubic-bezier(0.2, 1, 0.2, 1);
+}
+
+/* Right-to-Left Destruction */
+.header-search:not(.open) .header-search-form::after {
+  transform-origin: right;
+  transition: transform 0.5s cubic-bezier(0.2, 1, 0.2, 1);
+}
+
+/* THE LUXURY ARROW */
+.header-search-form::before {
+  content: '→';
+  position: absolute;
+  right: 0;
+  bottom: 12px;
+  font-family: serif;
+  font-size: 1.2rem;
+  color: #111;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: 
+    opacity 0.4s ease 0.4s, 
+    transform 0.6s cubic-bezier(0.2, 1, 0.2, 1) 0.4s;
+}
+
+.header-search.open .header-search-form::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 48em) {
+  .header-search-form {
+    right: 20px;
+    width: calc(100vw - 40px);
+  }
+}
+
+.header-search.open .header-search-form {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(35px);
+}
+
+
+
+
+
+/* 3. OPTIONAL: ANIMATED UNDERLINE (Choose this OR the border above) */
+/* If you want the line to "draw" itself out slowly: */
+.header-search-form::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 1.5px;
+  background: #111;
+  
+  /* Luxury Draw Speed */
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 1s cubic-bezier(0.2, 1, 0.2, 1) 0.2s;
+}
+
+.header-search.open .header-search-form::after {
+  transform: scaleX(1);
+}
+
+/* 4. THE DYNAMIC BACKGROUND (CURTAIN) */
+/* =========================
+   LUXURY CURTAIN ANIMATION
+========================= */
+
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: white;
+
+  /* START STATE */
+  transform: scaleY(0);
+  transform-origin: top; /* grows downward */
+  
+  transition: 
+    transform 1.1s cubic-bezier(0.2, 1, 0.2, 1),
+    box-shadow 0.6s ease;
+
+  transition-delay: 0.08s;
+
+
+  z-index: -1;
+  pointer-events: none;
+}
+
+
+/* Search open */
+.header:has(.header-search.open)::before {
+  transform: scaleY(1);
+  transform-origin: top;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.04);
+}
+
+/* Dropdown open */
+.header:has(.header-menu-item:hover)::before {
+  transform: scaleY(1);
+  transform-origin: top;
+}
+
+/* Destruction direction */
+.header:not(:has(.header-search.open))
+.header:not(:has(.header-menu-item:hover))::before {
+  transform-origin: bottom; /* collapses upward */
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 48em) {
+  .header-inner {
+    padding: 0 20px;
+  }
+
+  .header-search-form {
+    right: 20px;
+    width: calc(100vw - 40px);
+  }
+}
+
+
+
+/* Underline animation */
+
+
+/* =========================
+   PAGE BLUR
+========================= */
+
+body.search-active main {
+  filter: blur(6px);
+  transition: filter 0.3s ease;
+}
+
+body.search-active {
+  overflow: hidden;
+}
+
+
+/* =========================
    DROPDOWN PANEL
 ========================= */
 
+/* Example for your Dropdowns to work with height: auto */
 .dropdown {
-  background: white;
-  color: #111;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+  display: none;
+  position: relative; /* This allows it to push the header bottom */
+  width: 100%;
+}
+
+.header-menu-item:hover + .dropdown {
+  display: block;
 }
 
 /* =========================

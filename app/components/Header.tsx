@@ -1,12 +1,11 @@
-import {Suspense} from 'react';
-import {Await, NavLink, useAsyncValue} from 'react-router';
-import {
-  type CartViewPayload,
-  useAnalytics,
-  useOptimisticCart,
-} from '@shopify/hydrogen';
+import {Suspense, useEffect, useRef, useState} from 'react';
+import {Await, NavLink, useNavigate} from 'react-router';
 import type {HeaderQuery, CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
+
+/* =========================
+   TYPES
+========================= */
 
 interface HeaderProps {
   header: HeaderQuery;
@@ -27,13 +26,42 @@ export function Header({
   cart,
   publicStoreDomain,
 }: HeaderProps) {
-  const {shop, menu} = header;
+  const {menu} = header;
+
+  const [isAtTop, setIsAtTop] = useState(true);
+  const [isHidden, setIsHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const current = window.scrollY;
+
+      setIsAtTop(current < 50);
+
+      if (current > lastScrollY && current > 150) {
+        setIsHidden(true);
+      } else {
+        setIsHidden(false);
+      }
+
+      setLastScrollY(current);
+    };
+
+    window.addEventListener('scroll', handleScroll, {passive: true});
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
+  const headerClassName = [
+    'header',
+    isAtTop && 'at-top',
+    isHidden && 'header-hidden',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <header className="header">
+    <header className={headerClassName}>
       <div className="header-inner">
-
-        {/* LEFT NAV */}
         <HeaderMenu
           menu={menu}
           viewport="desktop"
@@ -41,32 +69,21 @@ export function Header({
           publicStoreDomain={publicStoreDomain}
         />
 
-        {/* CENTER LOGO */}
-       <div className="header-center">
-  <NavLink
-    to="/"
-    end
-    prefetch="intent"
-    aria-label="Home"
-    className="logo-link"
-  >
-    <h1 className="header-logo-text">Ashvanta</h1>
-  </NavLink>
-</div>
+        <div className="header-center">
+          <NavLink to="/" end prefetch="intent" className="logo-link">
+            <h1 className="header-logo-text">Ashvanta</h1>
+          </NavLink>
+        </div>
 
-
-        {/* RIGHT ACTIONS */}
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
-
       </div>
     </header>
   );
 }
 
 /* =========================
-   HEADER MENU (LEFT)
+   HEADER MENU
 ========================= */
-
 
 export function HeaderMenu({
   menu,
@@ -75,20 +92,17 @@ export function HeaderMenu({
   publicStoreDomain,
 }: {
   menu: HeaderProps['header']['menu'];
-  primaryDomainUrl: HeaderProps['header']['shop']['primaryDomain']['url'];
+  primaryDomainUrl: string;
   viewport: Viewport;
-  publicStoreDomain: HeaderProps['publicStoreDomain'];
+  publicStoreDomain: string;
 }) {
   const className = `header-left header-menu-${viewport}`;
   const {close} = useAside();
 
-  // ✅ ALWAYS USE SHOPIFY MENU AS SOURCE OF TRUTH
-  const items = menu?.items?.length
-    ? menu.items
-    : FALLBACK_HEADER_MENU.items;
+  const items = menu?.items?.length ? menu.items : FALLBACK_HEADER_MENU.items;
 
   return (
-    <nav className={className} role="navigation">
+    <nav className={className}>
       {viewport === 'mobile' && (
         <NavLink
           end
@@ -102,15 +116,10 @@ export function HeaderMenu({
       )}
 
       {items.map((item: any) => {
-        // Shopify sometimes nests links — we only want clickable ones
         if (!item?.title) return null;
 
-        // Resolve URL safely
         const rawUrl =
-          item.url ??
-          item.resource?.url ??
-          item.resource?.handle ??
-          null;
+          item.url ?? item.resource?.url ?? item.resource?.handle ?? null;
 
         if (!rawUrl) return null;
 
@@ -139,40 +148,72 @@ export function HeaderMenu({
   );
 }
 
-
-
 /* =========================
-   MINIMALIST SVGS
+   ICONS
 ========================= */
 
 const IconUser = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+    <circle cx="12" cy="7" r="4" />
+  </svg>
 );
 
 const IconSearch = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
+    <circle cx="11" cy="11" r="8" />
+    <path d="m21 21-4.3-4.3" />
+  </svg>
 );
 
 const IconBag = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
+    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+    <path d="M3 6h18" />
+    <path d="M16 10a4 4 0 0 1-8 0" />
+  </svg>
 );
 
 /* =========================
-   HEADER RIGHT CTAs
+   HEADER CTAs
 ========================= */
 
-function HeaderCtas({isLoggedIn, cart}: Pick<HeaderProps, 'isLoggedIn' | 'cart'>) {
+function HeaderCtas({
+  isLoggedIn,
+  cart,
+}: Pick<HeaderProps, 'isLoggedIn' | 'cart'>) {
   return (
-    <nav className="header-right header-ctas" role="navigation">
+    <nav className="header-right header-ctas">
       <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" className="icon-btn">
+
+      <NavLink to="/account" className="icon-btn">
         <Suspense fallback={<IconUser />}>
-          <Await resolve={isLoggedIn}>
-            {() => <IconUser />}
-          </Await>
+          <Await resolve={isLoggedIn}>{() => <IconUser />}</Await>
         </Suspense>
       </NavLink>
-      <SearchToggle />
+
+      <HeaderSearch />
       <CartToggle cart={cart} />
     </nav>
   );
@@ -180,20 +221,85 @@ function HeaderCtas({isLoggedIn, cart}: Pick<HeaderProps, 'isLoggedIn' | 'cart'>
 
 function HeaderMenuMobileToggle() {
   const {open} = useAside();
+
   return (
-    <button className="header-menu-mobile-toggle reset icon-btn" onClick={() => open('mobile')}>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <button
+      className="header-menu-mobile-toggle reset icon-btn"
+      onClick={() => open('mobile')}
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      >
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
     </button>
   );
 }
 
-function SearchToggle() {
-  const {open} = useAside();
-  return <button className="icon-btn reset" onClick={() => open('search')}><IconSearch /></button>;
+/* =========================
+   SEARCH
+========================= */
+
+function HeaderSearch() {
+  const [open, setOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.body.classList.toggle('search-active', open);
+    if (open) inputRef.current?.focus();
+
+    return () => {
+      document.body.classList.remove('search-active');
+    };
+  }, [open]);
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const value = inputRef.current?.value?.trim();
+
+    if (value) {
+      navigate(`/products?q=${encodeURIComponent(value)}`);
+      setOpen(false);
+    }
+  }
+
+  return (
+    <div
+      className={`header-search ${open ? 'open' : ''}`}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button className="icon-btn reset" aria-label="Search">
+        <IconSearch />
+      </button>
+
+      <form onSubmit={submit} className="header-search-form">
+        
+        <input
+          ref={inputRef}
+          type="search"
+          placeholder="ENTER KEYWORD" // Updated text
+          autoComplete="off"
+        />
+      </form>
+    </div>
+  );
 }
 
+/* =========================
+   CART
+========================= */
+
 function CartBadge() {
-  const {open} = useAside() as any;
+  const {open} = useAside();
 
   return (
     <a
@@ -226,9 +332,9 @@ function CartToggle({cart}: Pick<HeaderProps, 'cart'>) {
 const FALLBACK_HEADER_MENU = {
   id: 'gid://shopify/Menu/1',
   items: [
-    { id: '1', title: 'Our Collection', url: '/collections/all' },
-    { id: '2', title: 'Featured', url: '/collections/featured' },
-    { id: '3', title: 'Sustainability', url: '/pages/sustainability' },
+    {id: '1', title: 'Our Collection', url: '/collections/all'},
+    {id: '2', title: 'Featured', url: '/collections/featured'},
+    {id: '3', title: 'Sustainability', url: '/pages/sustainability'},
   ],
 };
 
@@ -236,6 +342,6 @@ function activeLinkStyle({isActive}: {isActive: boolean}) {
   return {
     fontWeight: isActive ? '600' : '400',
     textDecoration: isActive ? 'underline' : 'none',
-    textUnderlineOffset: '4px'
+    textUnderlineOffset: '4px',
   };
 }
